@@ -2,8 +2,11 @@ package com.nelioalves.cursomc.domain;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,6 +14,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
@@ -31,6 +36,9 @@ public class Produto implements Serializable{
 		inverseJoinColumns = @JoinColumn(referencedColumnName = "id")
 	)	
 	private List<Categoria> categorias = new ArrayList<>();
+	
+	@OneToMany(mappedBy = "id.produto")
+	private Set<ItemPedido> items = new HashSet<>();
 
 	public Produto() {
 		
@@ -43,6 +51,14 @@ public class Produto implements Serializable{
 		this.preco = preco;
 	}
 
+	public List<Pedido> getPedidos(){
+		List<Pedido> lista = new ArrayList<>();
+		for(ItemPedido x : items) {
+			lista.add(x.getPedido());
+		}
+		return lista;
+	}
+	
 	public Integer getId() {
 		return id;
 	}
@@ -90,5 +106,13 @@ public class Produto implements Serializable{
 			return false;
 		Produto other = (Produto) obj;
 		return Objects.equals(id, other.id);
+	}
+
+	public Set<ItemPedido> getItems() {
+		return items;
+	}
+
+	public void setItems(Set<ItemPedido> items) {
+		this.items = items;
 	}
 }
