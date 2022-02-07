@@ -15,7 +15,7 @@ public class ClienteService {
 	@Autowired
 	ClienteRepository repository;
 	
-	public Cliente buscarClientePorId(Integer id) {
+	public Cliente find(Integer id) {
 		Optional<Cliente> cliente = repository.findById(id);
 		return cliente.orElseThrow(() -> new ObjectNotFoundException("Objeto não encotrado! ID: ".concat(id.toString()).
 				concat(", Tipo: ").concat(Cliente.class.getSimpleName())));

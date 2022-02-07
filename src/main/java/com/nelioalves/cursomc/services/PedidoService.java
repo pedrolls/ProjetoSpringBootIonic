@@ -15,7 +15,7 @@ public class PedidoService {
 	@Autowired
 	PedidoRepository repository;
 	
-	public Pedido buscarPedidoPorId(Integer id) {
+	public Pedido find(Integer id) {
 		Optional<Pedido> pedido = repository.findById(id);
 		return pedido.orElseThrow(() -> new ObjectNotFoundException("Objeto não encotrado! ID: ".concat(id.toString()).
 				concat(", Tipo: ").concat(Pedido.class.getSimpleName())));
