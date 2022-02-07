@@ -18,5 +18,10 @@ public class CategoriaService {
 		return categoria.orElseThrow(() -> new ObjectNotFoundException("Objeto não encotrado! ID: ".concat(id.toString()).
 				concat(", Tipo: ").concat(Categoria.class.getSimpleName())));
 	}
+	
+	public Categoria insert(Categoria objCategoria) {
+		objCategoria.setId(null);
+		return repository.save(objCategoria);
+	}
 
 }
