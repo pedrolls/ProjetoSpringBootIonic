@@ -1,11 +1,16 @@
 package com.nelioalves.cursomc.services;
 
 import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+
 import com.nelioalves.cursomc.domain.Categoria;
 import com.nelioalves.cursomc.repositories.CategoriaRepository;
+import com.nelioalves.cursomc.services.exceptions.DataIntegrityException;
 import com.nelioalves.cursomc.services.exceptions.ObjectNotFoundException;
+import com.nelioalves.cursomc.services.util.ConstantesSistema;
 
 @Service
 public class CategoriaService {
@@ -28,5 +33,15 @@ public class CategoriaService {
 		find(objCategoria.getId());
 		return repository.save(objCategoria);
 	}
-
+	
+	public void delete(Integer id) {
+		find(id);
+		try {
+			repository.deleteById(id);
+		} catch (DataIntegrityException e) {
+			 throw new DataIntegrityException(ConstantesSistema.MSG_ERROR_DATA_INTEGRITY);
+		} catch (DataIntegrityViolationException e) {
+			 throw new DataIntegrityException(ConstantesSistema.MSG_ERROR_DATA_INTEGRITY);
+		}
+	}
 }
