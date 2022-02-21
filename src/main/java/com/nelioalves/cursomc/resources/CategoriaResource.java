@@ -4,6 +4,8 @@ import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -33,15 +35,17 @@ public class CategoriaResource {
 	}
 	
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Void> insert(@RequestBody Categoria objCategoria){
-		objCategoria = service.insert(objCategoria);
+	public ResponseEntity<Void> insert(@Valid @RequestBody CategoriaDTO objCategoria){
+		Categoria categoria = service.fromDTO(objCategoria);
+		categoria = service.insert(categoria);
 		return ResponseEntity.created(getUri(objCategoria.getId())).build();	
 	}
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<Void> update(@RequestBody Categoria objCategoria,@PathVariable Integer id){
-		objCategoria.setId(id);
-		objCategoria = service.update(objCategoria);
+	public ResponseEntity<Void> update(@Valid @RequestBody CategoriaDTO objCategoria,@PathVariable Integer id){
+		Categoria categoria = service.fromDTO(objCategoria);
+		categoria.setId(id);
+		categoria = service.update(categoria);
 		return ResponseEntity.noContent().build();
 	}
 	
@@ -52,7 +56,7 @@ public class CategoriaResource {
 	}
 	
 	@RequestMapping(method = RequestMethod.GET)
-	public ResponseEntity<List<CategoriaDTO>> findCategoriaById() {
+	public ResponseEntity<List<CategoriaDTO>> findAll() {
 		List<Categoria> listaDeCategorias = service.findAll();
 		List<CategoriaDTO> listaDeCategoriaDTO = listaDeCategorias.stream().map(e -> new CategoriaDTO(e)).collect(Collectors.toList());
 		return ResponseEntity.ok().body(listaDeCategoriaDTO);
