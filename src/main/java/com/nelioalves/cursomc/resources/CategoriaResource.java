@@ -62,15 +62,6 @@ public class CategoriaResource {
 		return ResponseEntity.ok().body(listaDeCategoriaDTO);
 	}
 	
-	/**
-	 * Metodo que retorna a URI do obj criado.
-	 * @param id
-	 * @return URI
-	 */
-	public URI getUri(Integer id) {
-		return ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(id).toUri();
-	}
-	
 	@RequestMapping(value = "/page",method = RequestMethod.GET)
 	public ResponseEntity<Page<CategoriaDTO>> findPage(
 			@RequestParam(value = "page", defaultValue = "0") Integer page, 
@@ -81,6 +72,15 @@ public class CategoriaResource {
 		Page<Categoria> listaDeCategorias = service.findPage(page, linesPerPage, orderBy, direction);
 		Page<CategoriaDTO> listaDeCategoriaDTO = listaDeCategorias.map(e -> new CategoriaDTO(e));
 		return ResponseEntity.ok().body(listaDeCategoriaDTO);
+	}
+	
+	/**
+	 * Metodo que retorna a URI do obj criado.
+	 * @param id
+	 * @return URI
+	 */
+	public URI getUri(Integer id) {
+		return ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(id).toUri();
 	}
 	
 }

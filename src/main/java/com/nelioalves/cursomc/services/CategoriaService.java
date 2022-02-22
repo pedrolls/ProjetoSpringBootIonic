@@ -44,9 +44,9 @@ public class CategoriaService {
 		try {
 			repository.deleteById(id);
 		} catch (DataIntegrityException e) {
-			 throw new DataIntegrityException(ConstantesSistema.MSG_ERROR_DATA_INTEGRITY);
+			 throw new DataIntegrityException(ConstantesSistema.MSG_ERROR_DATA_INTEGRITY_CATEGORIA);
 		} catch (DataIntegrityViolationException e) {
-			 throw new DataIntegrityException(ConstantesSistema.MSG_ERROR_DATA_INTEGRITY);
+			 throw new DataIntegrityException(ConstantesSistema.MSG_ERROR_DATA_INTEGRITY_CATEGORIA);
 		}
 	}
 	
